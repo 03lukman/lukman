@@ -1,0 +1,11 @@
+{
+  "title": "Lukman Nurhakim - Frontend developer",
+  "description": "I'm Lukman, a developer living in Bogor, Indonesia.",
+  "image": {
+    "src": "/assets/images/avatar.webp",
+    "alt": "Lukman Nurhakim",
+    "width": 300,
+    "height": 300
+  },
+  "locale": "en_SG"
+}
