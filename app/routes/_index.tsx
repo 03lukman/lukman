@@ -14,15 +14,8 @@ import {
   TwitterIcon,
 } from "app/components/Icons";
 import relayCommerceLogo from "app/images/logos/LOGO_IBIK.png";
-import cityJsConf2023 from "app/images/photos/cityjs-conf-2023.webp";
-import ddc2023 from "app/images/photos/ddc-2023.webp";
-import jsconfAsia2019 from "app/images/photos/jsconf-asia-2019.webp";
-import pianoWithKids from "app/images/photos/piano-with-kids.webp";
-import pianoWithWife from "app/images/photos/piano-with-wife.webp";
-import webUnconf2019 from "app/images/photos/web-unconf-2019.webp";
 import { metadata } from "app/models/metadata";
 import { formatDate } from "app/utils/format-date";
-import clsx from "clsx";
 import { getAllPosts, type Post } from "~/models/posts";
 import { subscribe } from "~/services/mailgun.server";
 
@@ -41,48 +34,6 @@ function SocialLink({
     >
       <Icon className="h-6 w-6 fill-zinc-500 transition group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300" />
     </a>
-  );
-}
-
-function Photos() {
-  const rotations = [
-    "rotate-2",
-    "-rotate-2",
-    "rotate-2",
-    "rotate-2",
-    "-rotate-2",
-  ];
-
-  return (
-    <div className="mt-16 sm:mt-20">
-      <div className="-my-4 flex gap-5 xl:justify-center overflow-x-scroll snap-x py-4 sm:gap-8">
-        {[
-          pianoWithKids,
-          cityJsConf2023,
-          jsconfAsia2019,
-          webUnconf2019,
-          ddc2023,
-          pianoWithWife,
-        ].map((image, imageIndex) => (
-          <div
-            key={image}
-            className={clsx(
-              "snap-center relative aspect-[9/10] w-44 flex-none justify-center overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 sm:w-72 sm:rounded-2xl",
-              rotations[imageIndex % rotations.length]
-            )}
-          >
-            <img
-              src={image}
-              alt=""
-              height={288}
-              width={288}
-              sizes="(min-width: 640px) 18rem, 11rem"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          </div>
-        ))}
-      </div>
-    </div>
   );
 }
 
@@ -121,15 +72,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return { formError: "Please enter a name and a valid email address" };
   }
 
-  const formdata = new FormData();
-  formdata.append("subscribed", "True");
-  formdata.append("address", email);
-
   const response = await subscribe(email);
 
   // TODO: show a warning message for errors
   if (response.status !== 200) {
-    const payload = response.json();
+    const payload = await response.json();
     return { payload, formError: "Something went wrong" };
   }
 
@@ -280,7 +227,6 @@ export default function Index() {
           </div>
         </div>
       </Container>
-      <Photos />
       <Container className="mt-24 md:mt-28">
         <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
           <div className="flex flex-col gap-16">
